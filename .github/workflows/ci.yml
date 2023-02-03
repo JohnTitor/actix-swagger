@@ -1,0 +1,27 @@
+name: Rust CI
+
+on:
+  push:
+
+jobs:
+  check:
+    name: CI
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install latest stable
+        run: |
+          rustup update stable
+          rustup override set stable
+          rustup component add rustfmt
+
+      - name: check the build
+        run: cargo check
+
+      - name: test
+        run: cargo test
+
+      - name: demo
+        run: |
+          cargo install cargo-make
+          cargo make
